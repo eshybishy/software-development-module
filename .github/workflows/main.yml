@@ -16,19 +16,25 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v3
 
+      # Step 2: Update index.html
       - name: Update index.html
         run: |
           echo "GitHub actor is ${{ github.actor }}"
           sed -i '/<\/body>/i <p>Updated by Team Leader on "'"$(date)"'"</p>' index.html
 
-      - name: Update README.md
+      # Step 3: Update README
+      - name: Update README
         run: |
           echo "### Updated by ${{ github.actor }} on $(date '+%Y-%m-%d %H:%M:%S') [Commit: $(git rev-parse --short HEAD)]" >> README.md
 
-      - name: Commit changes
+      # Step 4: Commit and Push Changes
+      - name: Commit and Push Changes
         run: |
-          git config --global user.name "github-actions"
-          git config --global user.email "github-actions@github.com"
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+
           git add .
-          git commit -m "Auto update HTML and README" || echo "No changes to commit"
+
+          git commit -m "Workflow: Updated HTML and README for ${{ github.actor }}" || echo "No changes to commit"
+
           git push
