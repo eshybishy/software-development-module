@@ -12,6 +12,8 @@ jobs:
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v3
+
       - name: Update index.html
         run: |
+          echo "GitHub actor is ${{ github.actor }}"
           sed -i '/<\/body>/i <p>Updated by Team Leader on '"$(date)"'</p>' index.html
