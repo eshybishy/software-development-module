@@ -9,6 +9,9 @@ jobs:
   update_html_and_readme:
     runs-on: ubuntu-latest
 
+    permissions:
+      contents: write
+
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v3
@@ -16,12 +19,16 @@ jobs:
       - name: Update index.html
         run: |
           echo "GitHub actor is ${{ github.actor }}"
-          sed -i '/<\/body>/i <p>Updated by Team Leader on '"$(date)"'</p>' index.html
+          sed -i '/<\/body>/i <p>Updated by Team Leader on "'"$(date)"'"</p>' index.html
+
+      - name: Update README.md
+        run: |
+          echo "### Updated by ${{ github.actor }} on $(date '+%Y-%m-%d %H:%M:%S') [Commit: $(git rev-parse --short HEAD)]" >> README.md
 
       - name: Commit changes
         run: |
           git config --global user.name "github-actions"
           git config --global user.email "github-actions@github.com"
-          git add index.html
-          git commit -m "Update index.html" || echo "No changes to commit"
+          git add .
+          git commit -m "Auto update HTML and README" || echo "No changes to commit"
           git push
