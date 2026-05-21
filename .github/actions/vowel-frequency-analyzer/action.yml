@@ -1,1 +1,6 @@
+name: Vowel Frequency Analyzer
+description: Analyzes vowel frequency in data.txt and updates README.md
 
+runs:
+  using: docker
+  image: ../../../Dockerfile
