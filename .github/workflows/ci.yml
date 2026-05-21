@@ -1,1 +1,19 @@
+name: Vowel Frequency Workflow
 
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  analyze_vowels:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Run vowel frequency analyzer
+        uses: ./.github/actions/vowel-frequency-analyzer
